@@ -18,7 +18,13 @@ export default async function handler(req, res) {
     } else if (!path.startsWith('/')) {
       path = '/' + path;
     }
-    path = path.replace(/\/+/g, '/');
+        // Убираем лишние слэши (кроме тех, что после https:)
+    path = path.replace(/([^:]\/)\/+/g, "$1");
+    
+    // Если путь не начинается со слэша, добавляем его
+    if (!path.startsWith('/')) {
+      path = '/' + path;
+    }
     
     const finalUrl = `${supabaseUrl}${path}`;
 
